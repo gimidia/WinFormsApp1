@@ -70,6 +70,7 @@ namespace WinFormsApp1
         public string ConversorXML(string converter)
         {
             return converter.Replace("&", "&amp;");
+            //teste
 
         }
 
