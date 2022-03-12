@@ -5,6 +5,8 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Security;
+using System.Xml.Serialization;
+using System.IO;
 
 namespace WinFormsApp1
 {
@@ -19,16 +21,30 @@ namespace WinFormsApp1
         private void button1_Click(object sender, EventArgs e)
         {
 
-            try
-            {
-                var caminho = @"C:\Users\gimid\OneDrive\Documents\Csharp\product.xml";
-                ObterXML(caminho);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Erro", ex);
+            //try
+            //{
+            //    var caminho = @"C:\Users\gimid\OneDrive\Documents\Csharp\product.xml";
+            //    ObterXML(caminho);
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("Erro", ex);
 
-            }
+            //}
+
+            //Table table = DeserializeTheObject();
+            //MessageBox.Show("Id:" + table.Product_id +", Product: " + table.Product_name +" , Price" + table.Product_price );
+
+            var localArquivo = @"C:\Users\gimid\OneDrive\Documents\Csharp\product.xml";
+
+            var mySerializer = new XmlSerializer(typeof(Table));
+            // To read the file, create a FileStream.
+            using var myFileStream = new FileStream(localArquivo, FileMode.Open);
+            // Call the Deserialize method and cast to the object type.
+            var myObject = (Table)mySerializer.Deserialize(myFileStream);
+            var id = myObject.Product_id;
+            var name = myObject.Product_name;
+            var price = myObject.Product_price;
         }
 
         public void ObterXML(string xml)
@@ -61,10 +77,21 @@ namespace WinFormsApp1
                 item = new ListViewItem(new string[] { proID, proName, price });
                 listView1.Items.Add(item);
 
-            }
+            }             
 
             button1.Enabled = false;
 
+        }
+
+        internal Table DeserializeTheObject()
+        {
+            var localArquivo = @"C:\Users\gimid\OneDrive\Documents\Csharp\product.xml";
+            Table objectToDeserialize = new Table();
+            XmlSerializer xmlserializer = new System.Xml.Serialization.XmlSerializer(objectToDeserialize.GetType());
+            using (StreamReader streamreader = new StreamReader(localArquivo))
+            {
+                return (Table)xmlserializer.Deserialize(streamreader);
+            }
         }
 
         public string ConversorXML(string converter)
