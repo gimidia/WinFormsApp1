@@ -45,6 +45,10 @@ namespace WinFormsApp1
             var id = myObject.Product_id;
             var name = myObject.Product_name;
             var price = myObject.Product_price;
+
+            textBox1.Text = myObject.Product_id;
+            textBox2.Text = myObject.Product_name;
+            textBox3.Text = myObject.Product_price;
         }
 
         public void ObterXML(string xml)
