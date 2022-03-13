@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using System.Security;
 using System.Xml.Serialization;
 using System.IO;
+using System.Xml.Linq;
+using System.Linq;
 
 namespace WinFormsApp1
 {
@@ -35,20 +37,53 @@ namespace WinFormsApp1
             //Table table = DeserializeTheObject();
             //MessageBox.Show("Id:" + table.Product_id +", Product: " + table.Product_name +" , Price" + table.Product_price );
 
+            //var localArquivo = @"C:\Users\gimid\OneDrive\Documents\Csharp\product.xml";
+
+            //var mySerializer = new XmlSerializer(typeof(Table));
+            //// To read the file, create a FileStream.
+            //using var myFileStream = new FileStream(localArquivo, FileMode.Open);
+            //// Call the Deserialize method and cast to the object type.
+            //var myObject = (Table)mySerializer.Deserialize(myFileStream);
+            //var id = myObject.Product_id;
+            //var name = myObject.Product_name;
+            //var price = myObject.Product_price;
+
+            //textBox1.Text = myObject.Product_id;
+            //textBox2.Text = myObject.Product_name;
+            //textBox3.Text = myObject.Product_price;
+
+            // load xml file
+            var xml = XDocument.Load(@"C:\Users\gimid\OneDrive\Documents\Csharp\product.xml");
+            // load xml content from a string
+            //var xml = XDocument.Parse("<xml>your xml content</xml>");
+
+            // get all sub element from node "Book"
+            var bookDetails = from b in xml.Root.Descendants("Product")
+                              select b.Element("Product_id").Value + "-" +
+                                      b.Element("Product_name").Value + "-" +
+                                      b.Element("Product_price").Value;
+
+            foreach (string detail in bookDetails)
+            {
+                Console.WriteLine("Book details: {0}", detail);
+                
+            }
+
             var localArquivo = @"C:\Users\gimid\OneDrive\Documents\Csharp\product.xml";
 
-            var mySerializer = new XmlSerializer(typeof(Table));
-            // To read the file, create a FileStream.
-            using var myFileStream = new FileStream(localArquivo, FileMode.Open);
-            // Call the Deserialize method and cast to the object type.
-            var myObject = (Table)mySerializer.Deserialize(myFileStream);
-            var id = myObject.Product_id;
-            var name = myObject.Product_name;
-            var price = myObject.Product_price;
+            DeserializeXML(localArquivo);
 
-            textBox1.Text = myObject.Product_id;
-            textBox2.Text = myObject.Product_name;
-            textBox3.Text = myObject.Product_price;
+
+
+        }
+
+        public XmlData DeserializeXML(string xmlFilename)
+        {
+            using (StreamReader reader = new StreamReader(xmlFilename))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(XmlData));
+                return (XmlData)serializer.Deserialize(reader);
+            }
         }
 
         public void ObterXML(string xml)
