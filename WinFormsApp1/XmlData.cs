@@ -18,7 +18,7 @@ namespace WinFormsApp1
     public class XmlData
     {
         [XmlElement("Product")]
-        public Product[] Table { get; set; }
+        public Product[] Products { get; set; }
     }
 
 }
