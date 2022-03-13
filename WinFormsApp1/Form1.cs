@@ -154,7 +154,7 @@ namespace WinFormsApp1
                 string proName = xn["Product_name"].InnerText;
                 string price = xn["Product_price"].InnerText;
 
-                Console.WriteLine("ID: " + proID + " NANE " + proName + " PRICE " + price + " < br />");
+                Console.WriteLine("ID: " + proID + " NANE " + proName + " PRICE " + price);
             }
         }
 
