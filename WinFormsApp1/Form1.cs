@@ -139,5 +139,28 @@ namespace WinFormsApp1
 
         }
 
+        public void LerXML()
+        {
+            var caminhoXMl= @"C:\Users\gimid\OneDrive\Documents\Csharp\product.xml";
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(caminhoXMl); //Carregando o arquivo
+            XmlNodeList xnList = xmlDoc.GetElementsByTagName("Product");
+
+            //Usando foreach para imprimir na tela
+            foreach (XmlNode xn in xnList)
+            {
+                string proID = xn["Product_id"].InnerText;
+                string proName = xn["Product_name"].InnerText;
+                string price = xn["Product_price"].InnerText;
+
+                Console.WriteLine("ID: " + proID + " NANE " + proName + " PRICE " + price + " < br />");
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            LerXML();
+        }
     }
 }
